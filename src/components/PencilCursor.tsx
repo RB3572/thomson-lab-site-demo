@@ -57,35 +57,43 @@ export default function PencilCursor() {
         const life = 1 - age / LIFE // 1 -> 0
         if (life <= 0) continue
 
-        // blunt pencil: soft, slightly wide graphite stroke that thins as it fades
-        const width = 1.5 + life * 6
-        // graphite grit — two slightly offset strokes for a rougher, softer look
-        ctx.lineCap = 'round'
-        ctx.lineJoin = 'round'
+        // Light graphite pencil: instead of a solid line, scatter faint
+        // graphite specks along the segment so it reads as grainy pencil shading.
+        const dx = b.x - a.x
+        const dy = b.y - a.y
+        const dist = Math.hypot(dx, dy) || 1
+        // unit perpendicular for lateral grain spread
+        const px = -dy / dist
+        const py = dx / dist
+        // half-width of the stroke (thins as it fades)
+        const halfW = 0.8 + life * 2.4
+        // grain density scales with length + width
+        const specks = Math.max(2, Math.floor(dist * (0.7 + life)))
 
-        ctx.strokeStyle = `rgba(45,45,45,${0.32 * life})`
-        ctx.lineWidth = width
-        ctx.beginPath()
-        ctx.moveTo(a.x, a.y)
-        ctx.lineTo(b.x, b.y)
-        ctx.stroke()
-
-        // grainy core
-        ctx.strokeStyle = `rgba(30,30,30,${0.5 * life})`
-        ctx.lineWidth = Math.max(0.6, width * 0.45)
-        ctx.beginPath()
-        ctx.moveTo(a.x + (Math.random() - 0.5) * 1.4, a.y + (Math.random() - 0.5) * 1.4)
-        ctx.lineTo(b.x + (Math.random() - 0.5) * 1.4, b.y + (Math.random() - 0.5) * 1.4)
-        ctx.stroke()
+        for (let s = 0; s < specks; s++) {
+          const t = Math.random()
+          // gaussian-ish lateral offset (denser toward the centre)
+          const off =
+            (Math.random() - 0.5 + (Math.random() - 0.5)) * halfW
+          const gx = a.x + dx * t + px * off
+          const gy = a.y + dy * t + py * off
+          const size = 0.5 + Math.random() * 0.9
+          // light graphite, faint and randomised for texture
+          const alpha = life * (0.05 + Math.random() * 0.13)
+          ctx.fillStyle = `rgba(78,72,62,${alpha})`
+          ctx.fillRect(gx, gy, size, size)
+        }
       }
 
-      // pencil tip dot at the head
+      // soft pencil tip at the head
       if (mouseInside && pts.length) {
         const h = pts[pts.length - 1]
-        ctx.fillStyle = 'rgba(35,35,35,0.55)'
-        ctx.beginPath()
-        ctx.arc(h.x, h.y, 2.4, 0, Math.PI * 2)
-        ctx.fill()
+        for (let s = 0; s < 10; s++) {
+          const ang = Math.random() * Math.PI * 2
+          const rad = Math.random() * 2.2
+          ctx.fillStyle = `rgba(80,74,64,${0.06 + Math.random() * 0.12})`
+          ctx.fillRect(h.x + Math.cos(ang) * rad, h.y + Math.sin(ang) * rad, 0.9, 0.9)
+        }
       }
 
       raf = requestAnimationFrame(draw)

@@ -115,7 +115,7 @@ const MemberCard = ({ member, index, total, accent }: CardProps) => {
           style={{
             borderRadius: '24px',
             background:
-              'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)), rgba(9,11,17,0.34)',
+              'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)), rgba(14,14,14,0.34)',
             backdropFilter: 'blur(22px) saturate(150%)',
             WebkitBackdropFilter: 'blur(22px) saturate(150%)',
             border: '1px solid rgba(255,255,255,0.2)',

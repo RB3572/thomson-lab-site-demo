@@ -33,7 +33,7 @@ export default function Research() {
           <Link
             key={a.title}
             to={a.to}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c10]/70 backdrop-blur-md transition-colors hover:border-[#f7cc34]/60"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111111]/70 backdrop-blur-md transition-colors hover:border-[#f7cc34]/60"
           >
             <div className="flex h-44 items-center justify-center bg-white/5 p-4">
               <img

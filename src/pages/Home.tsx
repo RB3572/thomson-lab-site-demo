@@ -95,7 +95,7 @@ export default function Home() {
           <motion.div
             aria-hidden="true"
             style={{ opacity: scrimOpacity }}
-            className="pointer-events-none absolute inset-0 rounded-[28px] bg-[#05060a]"
+            className="pointer-events-none absolute inset-0 rounded-[28px] bg-[#0a0a0a]"
           />
         </motion.div>
       </section>

@@ -1,7 +1,7 @@
 :root {
   --fnav-dna: #f7cc34; /* Thomson Lab logo DNA yellow */
-  --fnav-black: #191a1f; /* warm near-black — deliberately NOT navy */
-  --fnav-text: #f4f5f7;
+  --fnav-black: #1c1c1c; /* warm near-black — deliberately NOT navy */
+  --fnav-text: #f4f4f4;
 }
 
 .fnav {

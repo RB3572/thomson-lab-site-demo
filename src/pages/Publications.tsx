@@ -18,7 +18,7 @@ export default function Publications() {
               {group.items.map((pub) => (
                 <li
                   key={pub.title}
-                  className="flex gap-5 rounded-xl border border-white/10 bg-[#0b0c10]/70 p-5 backdrop-blur-md transition-colors hover:border-white/25"
+                  className="flex gap-5 rounded-xl border border-white/10 bg-[#111111]/70 p-5 backdrop-blur-md transition-colors hover:border-white/25"
                 >
                   {pub.img && (
                     <a

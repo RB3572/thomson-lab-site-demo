@@ -7,7 +7,7 @@ export default function Contact() {
       intro="Get in touch with the Thomson Lab at Caltech."
     >
       <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-2xl border border-white/10 bg-[#0b0c10]/70 p-8 backdrop-blur-md">
+        <div className="rounded-2xl border border-white/10 bg-[#111111]/70 p-8 backdrop-blur-md">
           <h2 className="text-lg font-bold text-white">Address</h2>
           <address className="mt-4 not-italic leading-relaxed text-white/80">
             Thomson Lab
@@ -22,7 +22,7 @@ export default function Contact() {
           </address>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-[#0b0c10]/70 p-8 backdrop-blur-md">
+        <div className="rounded-2xl border border-white/10 bg-[#111111]/70 p-8 backdrop-blur-md">
           <h2 className="text-lg font-bold text-white">Email</h2>
           <p className="mt-4 text-white/80">
             For inquiries, including prospective students and collaborators,

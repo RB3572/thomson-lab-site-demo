@@ -18,7 +18,7 @@ export default function PageShell({
         aria-hidden="true"
         className={
           solid
-            ? 'fixed inset-0 -z-[5] bg-gradient-to-b from-[#15171f] to-[#08090d]'
+            ? 'fixed inset-0 -z-[5] bg-gradient-to-b from-[#1a1a1a] to-[#0b0b0b]'
             : 'fixed inset-0 -z-[5] bg-black/60'
         }
       />

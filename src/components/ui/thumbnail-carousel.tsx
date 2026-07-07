@@ -49,7 +49,7 @@ export default function ThumbnailCarousel({
   }, [index])
 
   return (
-    <div className="mx-auto w-full max-w-5xl rounded-3xl border border-white/10 bg-[#0b0c10]/85 p-3 backdrop-blur-md sm:p-4">
+    <div className="mx-auto w-full max-w-5xl rounded-3xl border border-white/10 bg-[#111111]/85 p-3 backdrop-blur-md sm:p-4">
       {/* Main image */}
       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-black">
         {images.map((img, i) => (

@@ -50,7 +50,7 @@ export default function Resources() {
         {RESOURCES.map((r) => (
           <article
             key={r.title}
-            className="flex flex-col rounded-2xl border border-white/10 bg-[#0b0c10]/70 p-7 backdrop-blur-md"
+            className="flex flex-col rounded-2xl border border-white/10 bg-[#111111]/70 p-7 backdrop-blur-md"
           >
             <h2 className="text-xl font-bold text-white">{r.title}</h2>
             <p className="mt-3 flex-1 text-sm leading-relaxed text-white/75">

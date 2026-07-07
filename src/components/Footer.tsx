@@ -34,7 +34,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
 ]
 
 const linkClass =
-  'text-[#b4b5ba] transition-colors hover:text-white focus-visible:text-white'
+  'text-[#b4b4b4] transition-colors hover:text-white focus-visible:text-white'
 
 function FooterLinkItem({ link }: { link: FooterLink }) {
   if (link.href) {
@@ -58,7 +58,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 bg-[#25262b] text-white">
+    <footer className="relative z-10 bg-[#262626] text-white">
       <div className="mx-auto max-w-[1240px] px-6 py-16 sm:px-10">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           {/* Brand */}
@@ -68,7 +68,7 @@ export default function Footer() {
               alt="Thomson Lab"
               className="h-8 w-auto"
             />
-            <p className="mt-5 text-[1.05rem] text-[#b4b5ba]">
+            <p className="mt-5 text-[1.05rem] text-[#b4b4b4]">
               The laboratory of living algorithms
             </p>
             <div className="mt-6 flex items-center gap-5 text-white/70">

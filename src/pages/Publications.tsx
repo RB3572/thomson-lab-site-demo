@@ -1,66 +1,117 @@
-import PageShell from '@/components/PageShell'
+import { PaperTexture } from '@/components/ui/paper-texture'
+import PencilCursor from '@/components/PencilCursor'
 import { publications } from '@/lib/publications'
 
+const PAPER = {
+  fit: 'cover' as const,
+  scale: 1.1,
+  speed: 0,
+  frame: 0,
+  colorBack: '#f3ecdb',
+  colorFront: '#d9cdb0',
+  contrast: 0.32,
+  roughness: 0.55,
+  fiber: 0.35,
+  fiberSize: 0.2,
+  crumples: 0.22,
+  crumpleSize: 0.32,
+  folds: 0.18,
+  foldCount: 4,
+  fade: 0,
+  drops: 0.05,
+  seed: 12,
+}
+
 export default function Publications() {
+  let figIdx = 0
   return (
-    <PageShell
-      title="Publications"
-      intro="Selected papers and preprints from the Thomson Lab, spanning active matter, single-cell biology, and machine learning."
-    >
-      <div className="space-y-14">
-        {publications.map((group) => (
-          <section key={group.year}>
-            <div className="mb-5 flex items-center gap-4">
-              <h2 className="text-2xl font-bold text-[#f7cc34]">{group.year}</h2>
-              <div className="h-px flex-1 bg-white/10" />
-            </div>
-            <ul className="space-y-4">
-              {group.items.map((pub) => (
-                <li
-                  key={pub.title}
-                  className="flex gap-5 rounded-xl border border-white/10 bg-[#111111]/70 p-5 backdrop-blur-md transition-colors hover:border-white/25"
-                >
-                  {pub.img && (
-                    <a
-                      href={pub.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hidden shrink-0 sm:block"
-                    >
-                      <img
-                        src={pub.img}
-                        alt=""
-                        loading="lazy"
-                        className="h-24 w-24 rounded-lg object-cover ring-1 ring-white/10"
-                      />
-                    </a>
-                  )}
-                  <div className="min-w-0">
+    <div className="notebook relative min-h-screen text-[#38352d]">
+      {/* Paper sheet (covers the site's animated background). Solid cream sits
+          behind the shader so the sheet is never blank if WebGL is unavailable. */}
+      <div
+        className="fixed inset-0 -z-[3]"
+        style={{ background: '#f3ecdb' }}
+        aria-hidden="true"
+      >
+        <PaperTexture {...PAPER} style={{ width: '100%', height: '100%' }} />
+      </div>
+
+      {/* Pencil trail */}
+      <PencilCursor />
+
+      <main className="notebook-sheet relative mx-auto min-h-screen max-w-4xl pb-40 pt-[68px]">
+        {/* punched holes down the left edge */}
+        <div className="notebook-hole" style={{ top: '80px' }} />
+        <div className="notebook-hole" style={{ top: '320px' }} />
+        <div className="notebook-hole" style={{ top: '560px' }} />
+
+        {/* writing area — left-justified against the red margin line */}
+        <div
+          className="pr-8"
+          style={{ paddingLeft: 'calc(var(--margin) + 20px)' }}
+        >
+          <h1 className="font-title pencil text-[64px] leading-[68px]">
+            Publications
+          </h1>
+          <p className="font-hand pencil-soft text-[20px] leading-[34px]">
+            Lab notebook — selected papers &amp; preprints
+          </p>
+
+          {publications.map((group) => (
+            <section key={group.year} className="mt-[34px]">
+              <h2 className="font-title pencil text-[40px] leading-[68px]">
+                {group.year}
+              </h2>
+
+              {group.items.map((pub) => {
+                const rot = figIdx % 2 === 0 ? -2.2 : 2.4
+                figIdx += 1
+                return (
+                  <article
+                    key={pub.title}
+                    className="mb-[34px] clear-both"
+                  >
+                    {pub.img && (
+                      <figure
+                        className="taped float-right mb-3 ml-6 w-[190px]"
+                        style={{ transform: `rotate(${rot}deg)` }}
+                      >
+                        <span className="tape tape-tl" />
+                        <span className="tape tape-tr" />
+                        <img src={pub.img} alt="" loading="lazy" />
+                      </figure>
+                    )}
+
                     {pub.link ? (
                       <a
                         href={pub.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-base font-semibold text-white underline-offset-4 hover:underline"
+                        className="font-hand pencil text-[21px] font-bold leading-[34px] decoration-[#38352d]/50 hover:underline"
                       >
                         {pub.title}
                       </a>
                     ) : (
-                      <span className="text-base font-semibold text-white">
+                      <span className="font-hand pencil text-[21px] font-bold leading-[34px]">
                         {pub.title}
                       </span>
                     )}
-                    <p className="mt-1.5 text-sm text-white/60">{pub.authors}</p>
-                    <p className="mt-1 text-sm font-medium text-white/80">
+
+                    {pub.authors && (
+                      <p className="font-hand pencil-soft text-[18px] leading-[34px]">
+                        {pub.authors}
+                      </p>
+                    )}
+                    <p className="font-hand pencil-soft text-[18px] italic leading-[34px]">
                       {pub.venue}
                     </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
-    </PageShell>
+                  </article>
+                )
+              })}
+            </section>
+          ))}
+        </div>
+      </main>
+    </div>
   )
 }

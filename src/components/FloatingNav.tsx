@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './FloatingNav.css'
 
 const NAV_ITEMS = [
@@ -12,8 +13,17 @@ const NAV_ITEMS = [
 
 type NavItem = (typeof NAV_ITEMS)[number]
 
-/** Inner padding of the bar (matches CSS .fnav-pill-wrap top). */
-const PAD = 6
+const PATHS: Record<NavItem, string> = {
+  Home: '/',
+  Research: '/research',
+  Publications: '/publications',
+  'Links & Resources': '/resources',
+  'Our Team': '/our-team',
+  'Contact Us': '/contact',
+}
+
+/** Inner padding of the bar (matches CSS .fnav-pill-wrap top). Smaller = thinner bar. */
+const PAD = 3
 /** Height of the yellow pill / active label row (matches CSS heights). */
 const PILL_H = 44
 /**
@@ -23,12 +33,16 @@ const PILL_H = 44
  * bar background, so only the part below the bar shows as a downward bulge
  * of MARGIN − PAD px.
  */
-const MARGIN = 9
+const MARGIN = 10
 
 type Box = { left: number; width: number }
 
 export default function FloatingNav() {
-  const [selected, setSelected] = useState<NavItem>('Home')
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const selected: NavItem =
+    NAV_ITEMS.find((item) => PATHS[item] === pathname) ?? 'Home'
+
   const [mounted, setMounted] = useState(false)
   const [geo, setGeo] = useState<Record<string, Box>>({})
   // Left offset of the tab list within the bar (accounts for the brand logo).
@@ -106,9 +120,9 @@ export default function FloatingNav() {
         <div className="fnav-barbg" aria-hidden="true" />
 
         {/* Brand logo on the far left */}
-        <a className="fnav-brand" href="#top" aria-label="Thomson Lab — home">
+        <Link className="fnav-brand" to="/" aria-label="Thomson Lab — home">
           <img src="/thomson-logo-light.png" alt="Thomson Lab" onLoad={measureAll} />
-        </a>
+        </Link>
 
         {/* Yellow DNA pills (one per tab) */}
         {NAV_ITEMS.map((item) => {
@@ -141,7 +155,7 @@ export default function FloatingNav() {
                 }}
                 className={`fnav-link ${selected === item ? 'is-active' : ''}`}
                 aria-current={selected === item ? 'page' : undefined}
-                onClick={() => setSelected(item)}
+                onClick={() => navigate(PATHS[item])}
               >
                 {item}
               </button>

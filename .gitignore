@@ -24,3 +24,6 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# Large source original — only the cropped public/team version is used
+assets/team/Rishi.jpg

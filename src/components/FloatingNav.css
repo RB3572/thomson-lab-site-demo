@@ -17,7 +17,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 6px 8px; /* vertical must equal PAD in FloatingNav.tsx */
+  padding: 3px 8px; /* vertical must equal PAD in FloatingNav.tsx */
   isolation: isolate;
 }
 
@@ -84,7 +84,7 @@
 /* ---- Yellow DNA pill ---- */
 .fnav-pill-wrap {
   position: absolute;
-  top: 6px;
+  top: 3px;
   left: 0;
   height: 44px;
   z-index: 2;

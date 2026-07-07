@@ -1,79 +1,77 @@
-import './App.css'
+import { Suspense, useEffect, useRef } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import FloatingNav from './components/FloatingNav'
+import Footer from './components/Footer'
 
-const focusAreas = [
-  'Research overview',
-  'People and roles',
-  'Publications',
-  'Lab updates',
-]
+export default function App() {
+  const { pathname } = useLocation()
+  const isLanding = pathname === '/'
 
-const sections = [
-  {
-    title: 'Research',
-    text: 'A place to introduce the lab questions, active projects, methods, and model systems.',
-  },
-  {
-    title: 'Team',
-    text: 'Profile cards for trainees, staff, collaborators, and alumni can be added here.',
-  },
-  {
-    title: 'Output',
-    text: 'A structured home for publications, presentations, datasets, protocols, and news.',
-  },
-]
+  const landingRef = useRef<HTMLVideoElement>(null)
+  const otherRef = useRef<HTMLVideoElement>(null)
 
-function App() {
+  // Start each page at the top (matters for the scroll-driven pages).
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  // Crossfade to the SAME frame: sync the incoming video's time to the outgoing
+  // one before the opacity transition, so the dissolve feels seamless. Both
+  // clips are the same length (~11.9s boomerangs), so the time maps 1:1.
+  useEffect(() => {
+    const incoming = isLanding ? landingRef.current : otherRef.current
+    const outgoing = isLanding ? otherRef.current : landingRef.current
+    if (incoming && outgoing) {
+      const t = outgoing.currentTime
+      if (Number.isFinite(t)) {
+        try {
+          incoming.currentTime = t
+        } catch {
+          /* seeking may be briefly unavailable; ignore */
+        }
+      }
+      void incoming.play?.().catch(() => {})
+    }
+  }, [isLanding])
+
+  const videoClass =
+    'fixed inset-0 -z-20 h-full w-full object-cover transition-opacity duration-700 ease-in-out'
+
   return (
-    <main className="site-shell">
+    <div className="relative min-h-screen text-white">
+      {/* Background for non-landing pages (cell field) */}
+      <video
+        ref={otherRef}
+        className={`${videoClass} ${isLanding ? 'opacity-0' : 'opacity-100'}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/landing-poster.jpg"
+      >
+        <source src="/landing-animation.mp4" type="video/mp4" />
+      </video>
+      {/* Landing-only background (logo build) — sits on top, crossfades in/out */}
+      <video
+        ref={landingRef}
+        className={`${videoClass} ${isLanding ? 'opacity-100' : 'opacity-0'}`}
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/landing-logo-poster.jpg"
+      >
+        <source src="/landing-logo.mp4" type="video/mp4" />
+      </video>
+
+      {/* Gentle darkening for consistent contrast under the glass */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+
       <FloatingNav />
-
-      <section className="hero" id="top">
-        <div className="hero-copy">
-          <h1>A clean web home for a modern research lab.</h1>
-          <p>
-            This starter site is ready for lab identity, research narratives,
-            people profiles, publications, and project updates.
-          </p>
-          <a className="primary-link" href="#research">
-            View scaffold
-          </a>
-        </div>
-
-        <div className="hero-visual" aria-hidden="true">
-          <div className="sample-grid">
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="orb orb-one" />
-          <div className="orb orb-two" />
-          <div className="trace trace-one" />
-          <div className="trace trace-two" />
-        </div>
-      </section>
-
-      <section className="focus-strip" aria-label="Site focus areas">
-        {focusAreas.map((item) => (
-          <span key={item}>{item}</span>
-        ))}
-      </section>
-
-      <section className="content-grid" id="research">
-        {sections.map((section) => (
-          <article className="section-card" key={section.title}>
-            <h2 id={section.title === 'Team' ? 'team' : section.title === 'Output' ? 'output' : undefined}>
-              {section.title}
-            </h2>
-            <p>{section.text}</p>
-          </article>
-        ))}
-      </section>
-    </main>
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
+      <Footer />
+    </div>
   )
 }
-
-export default App

@@ -100,11 +100,8 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Life in the Lab — image carousel */}
-      <section className="relative px-4 pb-28">
-        <h2 className="mx-auto mb-8 max-w-5xl text-center text-3xl font-bold text-white sm:text-4xl">
-          Life in the Lab
-        </h2>
+      {/* Image carousel */}
+      <section className="relative px-4 pb-28 pt-4">
         <ThumbnailCarousel />
       </section>
     </>

@@ -40,8 +40,10 @@ type Box = { left: number; width: number }
 export default function FloatingNav() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const RESEARCH_SUBPAGES = ['/active-matter', '/machine-learning', '/single-cell']
   const selected: NavItem =
-    NAV_ITEMS.find((item) => PATHS[item] === pathname) ?? 'Home'
+    NAV_ITEMS.find((item) => PATHS[item] === pathname) ??
+    (RESEARCH_SUBPAGES.includes(pathname) ? 'Research' : 'Home')
 
   const [mounted, setMounted] = useState(false)
   const [geo, setGeo] = useState<Record<string, Box>>({})

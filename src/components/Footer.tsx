@@ -7,9 +7,9 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     title: 'Research',
     links: [
       { label: 'Overview', to: '/research' },
-      { label: 'Active Matter', to: '/research' },
-      { label: 'Machine Learning', to: '/research' },
-      { label: 'Single-Cell', to: '/research' },
+      { label: 'Active Matter', to: '/active-matter' },
+      { label: 'Machine Learning', to: '/machine-learning' },
+      { label: 'Single-Cell', to: '/single-cell' },
     ],
   },
   {

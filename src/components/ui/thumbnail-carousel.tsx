@@ -57,7 +57,7 @@ export default function ThumbnailCarousel({
             key={img.src}
             src={img.src}
             alt={img.alt ?? ''}
-            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+            className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-500 ${
               i === index ? 'opacity-100' : 'opacity-0'
             }`}
           />
@@ -94,10 +94,10 @@ export default function ThumbnailCarousel({
             type="button"
             onClick={() => go(i)}
             aria-label={`Go to image ${i + 1}`}
-            className={`relative h-24 w-16 shrink-0 overflow-hidden rounded-lg transition ${
+            className={`relative h-24 shrink-0 overflow-hidden rounded-lg transition-all duration-500 ease-out ${
               i === index
-                ? 'ring-2 ring-white'
-                : 'opacity-55 hover:opacity-90'
+                ? 'w-40 ring-2 ring-white'
+                : 'w-16 opacity-55 hover:opacity-90'
             }`}
           >
             <img

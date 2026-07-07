@@ -1,20 +1,24 @@
+import { Link } from 'react-router-dom'
 import PageShell from '@/components/PageShell'
 
 const AREAS = [
   {
     title: 'Active Matter',
+    to: '/active-matter',
     img: '/research/active-matter.png',
-    text: 'We examine cellular self-organization through defined systems built from purified proteins, studying the self-organization of force and motion in cells to understand how cell-like behaviors emerge from minimal molecular components.',
+    text: 'Understanding how complex active matter networks amplify and organize the forces that underlie cell division, motility, and the folding of tissues in development.',
   },
   {
     title: 'Machine Learning',
+    to: '/machine-learning',
     img: '/research/machine-learning.png',
-    text: 'We develop bio-inspired algorithms that grow neural networks autonomously — building artificial computational devices from a single unit that are scalable, robust, energy-efficient, and adaptable without human intervention.',
+    text: 'Developing artificial neural networks that self-organize themselves, growing from single computational cells, just like the brain.',
   },
   {
     title: 'Single-Cell Biology',
+    to: '/single-cell',
     img: '/research/single-cell.png',
-    text: 'We investigate how complex regulatory networks let individual cells respond to their environment, developing machine-learning approaches that automate the scientific method for closed-loop learning of regulatory network models.',
+    text: 'Building predictive models from massive-scale single cell data, then testing them by devising strategies to control and rewire tissue self-organization.',
   },
 ]
 
@@ -26,9 +30,10 @@ export default function Research() {
     >
       <div className="grid gap-6 md:grid-cols-3">
         {AREAS.map((a) => (
-          <article
+          <Link
             key={a.title}
-            className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c10]/70 backdrop-blur-md"
+            to={a.to}
+            className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b0c10]/70 backdrop-blur-md transition-colors hover:border-[#f7cc34]/60"
           >
             <div className="flex h-44 items-center justify-center bg-white/5 p-4">
               <img
@@ -37,13 +42,19 @@ export default function Research() {
                 className="max-h-full max-w-full object-contain"
               />
             </div>
-            <div className="p-6">
+            <div className="flex flex-1 flex-col p-6">
               <h2 className="text-xl font-bold text-white">{a.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-white/75">
+              <p className="mt-3 flex-1 text-sm leading-relaxed text-white/75">
                 {a.text}
               </p>
+              <span className="mt-4 text-sm font-semibold text-[#f7cc34]">
+                Learn more{' '}
+                <span className="inline-block transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </span>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </PageShell>

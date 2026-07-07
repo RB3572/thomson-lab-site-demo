@@ -18,26 +18,43 @@ export default function Publications() {
               {group.items.map((pub) => (
                 <li
                   key={pub.title}
-                  className="rounded-xl border border-white/10 bg-[#0b0c10]/70 p-5 backdrop-blur-md transition-colors hover:border-white/25"
+                  className="flex gap-5 rounded-xl border border-white/10 bg-[#0b0c10]/70 p-5 backdrop-blur-md transition-colors hover:border-white/25"
                 >
-                  {pub.link ? (
+                  {pub.img && (
                     <a
                       href={pub.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-base font-semibold text-white underline-offset-4 hover:underline"
+                      className="hidden shrink-0 sm:block"
                     >
-                      {pub.title}
+                      <img
+                        src={pub.img}
+                        alt=""
+                        loading="lazy"
+                        className="h-24 w-24 rounded-lg object-cover ring-1 ring-white/10"
+                      />
                     </a>
-                  ) : (
-                    <span className="text-base font-semibold text-white">
-                      {pub.title}
-                    </span>
                   )}
-                  <p className="mt-1.5 text-sm text-white/60">{pub.authors}</p>
-                  <p className="mt-1 text-sm font-medium text-white/80">
-                    {pub.venue}
-                  </p>
+                  <div className="min-w-0">
+                    {pub.link ? (
+                      <a
+                        href={pub.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-base font-semibold text-white underline-offset-4 hover:underline"
+                      >
+                        {pub.title}
+                      </a>
+                    ) : (
+                      <span className="text-base font-semibold text-white">
+                        {pub.title}
+                      </span>
+                    )}
+                    <p className="mt-1.5 text-sm text-white/60">{pub.authors}</p>
+                    <p className="mt-1 text-sm font-medium text-white/80">
+                      {pub.venue}
+                    </p>
+                  </div>
                 </li>
               ))}
             </ul>

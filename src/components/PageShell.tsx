@@ -4,15 +4,24 @@ export default function PageShell({
   title,
   intro,
   children,
+  solid = false,
 }: {
   title: string
   intro?: string
   children: ReactNode
+  /** Fully cover the animated background with a solid backdrop (no video). */
+  solid?: boolean
 }) {
   return (
     <>
-      {/* Extra darkening so long-form content reads well over the video */}
-      <div aria-hidden="true" className="fixed inset-0 -z-[5] bg-black/60" />
+      <div
+        aria-hidden="true"
+        className={
+          solid
+            ? 'fixed inset-0 -z-[5] bg-gradient-to-b from-[#15171f] to-[#08090d]'
+            : 'fixed inset-0 -z-[5] bg-black/60'
+        }
+      />
       <main className="relative mx-auto max-w-5xl px-6 pb-28 pt-14 sm:pt-20">
         <header className="mb-12">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl">

@@ -1,0 +1,188 @@
+:root {
+  --fnav-dna: #f7cc34; /* Thomson Lab logo DNA yellow */
+  --fnav-black: #191a1f; /* warm near-black — deliberately NOT navy */
+  --fnav-text: #f4f5f7;
+}
+
+.fnav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px 22px;
+}
+
+/* Layout + stacking context. The visible dark surface is .fnav-barbg so that the
+   cradles can render behind it. */
+.fnav-bar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px; /* vertical must equal PAD in FloatingNav.tsx */
+  isolation: isolate;
+}
+
+/* Brand logo (light) on the far left */
+.fnav-brand {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  margin-right: 14px;
+}
+
+.fnav-brand img {
+  display: block;
+  height: 24px;
+  width: auto;
+}
+
+.fnav-barbg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 999px;
+  background: var(--fnav-black);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+}
+
+/* ---- Dark cradle: concentric with the pill, hidden behind the bar except for
+        the downward bulge ---- */
+.fnav-cradle-wrap {
+  position: absolute;
+  left: 0;
+  z-index: 0; /* behind .fnav-barbg */
+  pointer-events: none;
+}
+
+.fnav-cradle-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--fnav-black);
+  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.45);
+  transform: scale(0.35);
+  transform-origin: center center;
+  opacity: 0;
+  will-change: transform, opacity;
+  /* shrink motion */
+  transition:
+    transform 0.22s cubic-bezier(0.5, 0, 0.75, 0.2),
+    opacity 0.16s ease-in;
+}
+
+.fnav-cradle-fill.is-on {
+  transform: scale(1);
+  opacity: 1;
+  /* grow motion — clean ease-out, no overshoot */
+  transition:
+    transform 0.28s cubic-bezier(0.33, 1, 0.68, 1),
+    opacity 0.18s ease-out;
+}
+
+/* ---- Yellow DNA pill ---- */
+.fnav-pill-wrap {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 44px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fnav-pill-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--fnav-dna);
+  box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.22);
+  transform: scale(0);
+  transform-origin: center center;
+  opacity: 0;
+  will-change: transform, opacity;
+  /* shrink motion */
+  transition:
+    transform 0.22s cubic-bezier(0.5, 0, 0.75, 0.2),
+    opacity 0.16s ease-in;
+}
+
+.fnav-pill-fill.is-on {
+  transform: scale(1);
+  opacity: 1;
+  /* grow motion — clean ease-out, no overshoot */
+  transition:
+    transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    opacity 0.18s ease-out;
+}
+
+/* ---- Labels ---- */
+.fnav-list {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fnav-list li {
+  display: flex;
+}
+
+.fnav-link {
+  position: relative;
+  height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fnav-text);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fnav-link:hover {
+  color: #ffffff;
+}
+
+/* Active label turns dark to read on the yellow pill */
+.fnav-link.is-active {
+  color: #1b1408;
+  font-weight: 600;
+}
+
+.fnav-link:focus-visible {
+  outline: 2px solid var(--fnav-dna);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fnav-cradle-fill,
+  .fnav-pill-fill {
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .fnav-bar {
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .fnav-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .fnav-link {
+    padding: 0 14px;
+    font-size: 0.86rem;
+  }
+}

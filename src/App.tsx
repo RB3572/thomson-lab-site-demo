@@ -1,4 +1,5 @@
 import './App.css'
+import FloatingNav from './components/FloatingNav'
 
 const focusAreas = [
   'Research overview',
@@ -25,17 +26,7 @@ const sections = [
 function App() {
   return (
     <main className="site-shell">
-      <nav className="nav" aria-label="Primary navigation">
-        <a className="brand" href="#top" aria-label="Thomson Lab Site Demo home">
-          <span className="brand-mark" aria-hidden="true" />
-          Thomson Lab Site Demo
-        </a>
-        <div className="nav-links">
-          <a href="#research">Research</a>
-          <a href="#team">Team</a>
-          <a href="#output">Output</a>
-        </div>
-      </nav>
+      <FloatingNav />
 
       <section className="hero" id="top">
         <div className="hero-copy">

@@ -39,7 +39,8 @@ export default function Publications() {
       {/* Pencil trail */}
       <PencilCursor />
 
-      <main className="notebook-sheet relative mx-auto min-h-screen max-w-4xl pb-40 pt-[68px]">
+      {/* Full-width sheet so the ruled lines run edge to edge */}
+      <main className="notebook-sheet relative min-h-screen w-full pb-40 pt-[68px]">
         {/* punched holes down the left edge */}
         <div className="notebook-hole" style={{ top: '80px' }} />
         <div className="notebook-hole" style={{ top: '320px' }} />
@@ -47,15 +48,12 @@ export default function Publications() {
 
         {/* writing area — left-justified against the red margin line */}
         <div
-          className="pr-8"
+          className="max-w-[1120px] pr-8"
           style={{ paddingLeft: 'calc(var(--margin) + 20px)' }}
         >
           <h1 className="font-title pencil text-[64px] leading-[68px]">
             Publications
           </h1>
-          <p className="font-hand pencil-soft text-[20px] leading-[34px]">
-            Lab notebook — selected papers &amp; preprints
-          </p>
 
           {publications.map((group) => (
             <section key={group.year} className="mt-[34px]">

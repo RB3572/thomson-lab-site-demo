@@ -28,7 +28,7 @@ export default function PencilCursor() {
     resize()
     window.addEventListener('resize', resize)
 
-    const LIFE = 550 // ms a point stays before it fully fades
+    const LIFE = 700 // ms a point stays before it fully fades
     let pts: Pt[] = []
     let mouseInside = false
 
@@ -66,9 +66,9 @@ export default function PencilCursor() {
         const px = -dy / dist
         const py = dx / dist
         // half-width of the stroke (thins as it fades)
-        const halfW = 0.8 + life * 2.4
+        const halfW = 1 + life * 3.2
         // grain density scales with length + width
-        const specks = Math.max(2, Math.floor(dist * (0.7 + life)))
+        const specks = Math.max(3, Math.floor(dist * (1.2 + life * 1.5)))
 
         for (let s = 0; s < specks; s++) {
           const t = Math.random()
@@ -77,10 +77,10 @@ export default function PencilCursor() {
             (Math.random() - 0.5 + (Math.random() - 0.5)) * halfW
           const gx = a.x + dx * t + px * off
           const gy = a.y + dy * t + py * off
-          const size = 0.5 + Math.random() * 0.9
-          // light graphite, faint and randomised for texture
-          const alpha = life * (0.05 + Math.random() * 0.13)
-          ctx.fillStyle = `rgba(78,72,62,${alpha})`
+          const size = 0.6 + Math.random() * 1.1
+          // graphite, randomised for texture but stronger/darker
+          const alpha = life * (0.16 + Math.random() * 0.26)
+          ctx.fillStyle = `rgba(54,49,42,${alpha})`
           ctx.fillRect(gx, gy, size, size)
         }
       }
@@ -88,11 +88,11 @@ export default function PencilCursor() {
       // soft pencil tip at the head
       if (mouseInside && pts.length) {
         const h = pts[pts.length - 1]
-        for (let s = 0; s < 10; s++) {
+        for (let s = 0; s < 16; s++) {
           const ang = Math.random() * Math.PI * 2
-          const rad = Math.random() * 2.2
-          ctx.fillStyle = `rgba(80,74,64,${0.06 + Math.random() * 0.12})`
-          ctx.fillRect(h.x + Math.cos(ang) * rad, h.y + Math.sin(ang) * rad, 0.9, 0.9)
+          const rad = Math.random() * 2.6
+          ctx.fillStyle = `rgba(50,45,39,${0.14 + Math.random() * 0.2})`
+          ctx.fillRect(h.x + Math.cos(ang) * rad, h.y + Math.sin(ang) * rad, 1, 1)
         }
       }
 

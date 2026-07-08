@@ -9,6 +9,8 @@
   justify-content: center;
   width: 100%;
   padding: 10px 16px 22px;
+  position: relative;
+  z-index: 50; /* stay above page content that tucks under the nav */
 }
 
 /* Layout + stacking context. The visible dark surface is .fnav-barbg so that the

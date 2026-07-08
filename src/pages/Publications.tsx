@@ -25,7 +25,7 @@ const PAPER = {
 export default function Publications() {
   let figIdx = 0
   return (
-    <div className="notebook relative min-h-screen text-[#38352d]">
+    <div className="notebook relative min-h-screen text-[#38352d] -mt-[82px]">
       {/* Paper sheet (covers the site's animated background). Solid cream sits
           behind the shader so the sheet is never blank if WebGL is unavailable. */}
       <div
@@ -39,12 +39,13 @@ export default function Publications() {
       {/* Pencil trail */}
       <PencilCursor />
 
-      {/* Full-width sheet so the ruled lines run edge to edge */}
-      <main className="notebook-sheet relative min-h-screen w-full pb-40 pt-[68px]">
+      {/* Full-width sheet so the ruled lines run edge to edge; pt clears the
+          floating nav (the page is pulled up so the rules start at the top). */}
+      <main className="notebook-sheet relative min-h-screen w-full pb-40 pt-[170px]">
         {/* punched holes down the left edge */}
-        <div className="notebook-hole" style={{ top: '80px' }} />
-        <div className="notebook-hole" style={{ top: '320px' }} />
-        <div className="notebook-hole" style={{ top: '560px' }} />
+        <div className="notebook-hole" style={{ top: '150px' }} />
+        <div className="notebook-hole" style={{ top: '390px' }} />
+        <div className="notebook-hole" style={{ top: '630px' }} />
 
         {/* writing area — left-justified against the red margin line */}
         <div

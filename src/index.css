@@ -38,9 +38,19 @@ a {
   --rule: 34px; /* spacing between ruled lines */
   --margin: 84px; /* x-position of the red margin line */
   --paper: #f3ecdb;
+  overflow-x: hidden;
   --ink: #38352d; /* graphite */
   --rule-color: rgba(120, 104, 82, 0.32);
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 767px) {
+  .notebook {
+    --margin: 26px; /* margin line closer to the left edge on mobile */
+  }
+  .notebook-hole {
+    display: none;
+  }
 }
 
 /* Ruled paper + red margin line, drawn on the scrolling content so lines move

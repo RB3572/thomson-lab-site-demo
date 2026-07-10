@@ -81,7 +81,7 @@ const MemberCard = ({ member, index, total, accent }: CardProps) => {
     >
       <div
         ref={cardRef}
-        className="relative h-[440px] w-[90%] max-w-4xl"
+        className="relative h-[480px] w-[92%] max-w-4xl sm:h-[440px]"
         style={{ borderRadius: '24px', isolation: 'isolate', top: `${-fan * 7}px` }}
       >
         {/* Accent border — a masked gradient RING, only for the highlighted card */}

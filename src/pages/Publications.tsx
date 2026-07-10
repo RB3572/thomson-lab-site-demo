@@ -25,7 +25,7 @@ const PAPER = {
 export default function Publications() {
   let figIdx = 0
   return (
-    <div className="notebook relative min-h-screen text-[#38352d] -mt-[82px]">
+    <div className="notebook relative min-h-screen text-[#38352d] md:-mt-[82px]">
       {/* Paper sheet (covers the site's animated background). Solid cream sits
           behind the shader so the sheet is never blank if WebGL is unavailable. */}
       <div
@@ -41,7 +41,7 @@ export default function Publications() {
 
       {/* Full-width sheet so the ruled lines run edge to edge; pt clears the
           floating nav (the page is pulled up so the rules start at the top). */}
-      <main className="notebook-sheet relative min-h-screen w-full pb-40 pt-[170px]">
+      <main className="notebook-sheet relative min-h-screen w-full pb-40 pt-[68px] md:pt-[170px]">
         {/* punched holes down the left edge */}
         <div className="notebook-hole" style={{ top: '150px' }} />
         <div className="notebook-hole" style={{ top: '390px' }} />
@@ -52,13 +52,13 @@ export default function Publications() {
           className="max-w-[1120px] pr-8"
           style={{ paddingLeft: 'calc(var(--margin) + 20px)' }}
         >
-          <h1 className="font-title pencil text-[64px] leading-[68px]">
+          <h1 className="font-title pencil text-[42px] leading-[68px] md:text-[64px]">
             Publications
           </h1>
 
           {publications.map((group) => (
             <section key={group.year} className="mt-[34px]">
-              <h2 className="font-title pencil text-[40px] leading-[68px]">
+              <h2 className="font-title pencil text-[28px] leading-[68px] md:text-[40px]">
                 {group.year}
               </h2>
 
@@ -72,7 +72,7 @@ export default function Publications() {
                   >
                     {pub.img && (
                       <figure
-                        className="taped float-right mb-3 ml-6 w-[190px]"
+                        className="taped float-right mb-3 ml-4 w-[112px] md:ml-6 md:w-[190px]"
                         style={{ transform: `rotate(${rot}deg)` }}
                       >
                         <span className="tape tape-tl" />
@@ -86,22 +86,22 @@ export default function Publications() {
                         href={pub.link}
                         target="_blank"
                         rel="noreferrer"
-                        className="font-hand pencil text-[21px] font-bold leading-[34px] decoration-[#38352d]/50 hover:underline"
+                        className="font-hand pencil text-[17px] font-bold leading-[34px] md:text-[21px] decoration-[#38352d]/50 hover:underline"
                       >
                         {pub.title}
                       </a>
                     ) : (
-                      <span className="font-hand pencil text-[21px] font-bold leading-[34px]">
+                      <span className="font-hand pencil text-[17px] font-bold leading-[34px] md:text-[21px]">
                         {pub.title}
                       </span>
                     )}
 
                     {pub.authors && (
-                      <p className="font-hand pencil-soft text-[18px] leading-[34px]">
+                      <p className="font-hand pencil-soft text-[15px] leading-[34px] md:text-[18px]">
                         {pub.authors}
                       </p>
                     )}
-                    <p className="font-hand pencil-soft text-[18px] italic leading-[34px]">
+                    <p className="font-hand pencil-soft text-[15px] italic leading-[34px] md:text-[18px]">
                       {pub.venue}
                     </p>
                   </article>

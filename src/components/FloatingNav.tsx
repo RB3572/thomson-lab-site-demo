@@ -46,6 +46,7 @@ export default function FloatingNav() {
     (RESEARCH_SUBPAGES.includes(pathname) ? 'Research' : 'Home')
 
   const [mounted, setMounted] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [geo, setGeo] = useState<Record<string, Box>>({})
   // Left offset of the tab list within the bar (accounts for the brand logo).
   const [listOffset, setListOffset] = useState(PAD)
@@ -89,8 +90,72 @@ export default function FloatingNav() {
   }, [])
 
   return (
-    <nav className="fnav" aria-label="Primary">
-      <div className="fnav-bar" ref={barRef}>
+    <>
+      {/* ---- Mobile: sticky bar + dropdown menu ---- */}
+      <div className="fnav-mobile">
+        <div className="fnav-mobile-bar">
+          <Link
+            to="/"
+            className="fnav-mobile-brand"
+            aria-label="Thomson Lab — home"
+            onClick={() => setMenuOpen(false)}
+          >
+            <img src="/thomson-logo-light.png" alt="Thomson Lab" />
+          </Link>
+          <button
+            type="button"
+            className="fnav-mobile-toggle"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="26"
+              height="26"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              {menuOpen ? (
+                <>
+                  <path d="M6 6l12 12" />
+                  <path d="M18 6L6 18" />
+                </>
+              ) : (
+                <>
+                  <path d="M4 7h16" />
+                  <path d="M4 12h16" />
+                  <path d="M4 17h16" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
+        {menuOpen && (
+          <div className="fnav-mobile-menu">
+            {NAV_ITEMS.map((item) => (
+              <button
+                key={item}
+                type="button"
+                className={`fnav-mobile-link ${selected === item ? 'is-active' : ''}`}
+                aria-current={selected === item ? 'page' : undefined}
+                onClick={() => {
+                  navigate(PATHS[item])
+                  setMenuOpen(false)
+                }}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* ---- Desktop: floating pill nav ---- */}
+      <nav className="fnav" aria-label="Primary">
+        <div className="fnav-bar" ref={barRef}>
         {/* Dark cradles (one per tab) — sit BEHIND the bar background so only the
             downward bulge is visible. The outgoing one shrinks while the incoming
             one grows, at the same time. */}
@@ -164,7 +229,8 @@ export default function FloatingNav() {
             </li>
           ))}
         </ul>
-      </div>
-    </nav>
+        </div>
+      </nav>
+    </>
   )
 }

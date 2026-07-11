@@ -149,26 +149,26 @@ const MemberCard = ({ member, index, total, accent }: CardProps) => {
           />
 
           {/* Content */}
-          <div className="relative z-10 flex h-full flex-col sm:flex-row">
-            <div className="h-40 w-full shrink-0 sm:h-full sm:w-[38%]">
-              {member.photo ? (
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  loading="lazy"
-                  className="h-full w-full object-cover object-center"
-                />
-              ) : (
-                <div
-                  className="flex h-full w-full items-center justify-center text-6xl font-semibold text-white/85"
-                  style={{ background: avatarBg }}
-                >
-                  {initials(member.name)}
-                </div>
-              )}
-            </div>
+          <div className="relative z-10 flex h-full flex-col items-center gap-5 p-6 text-center sm:flex-row sm:gap-8 sm:p-9 sm:text-left">
+            {/* Square photo — matches the (mostly square) source images so faces
+                aren't cropped into a thin band */}
+            {member.photo ? (
+              <img
+                src={member.photo}
+                alt={member.name}
+                loading="lazy"
+                className="h-40 w-40 shrink-0 rounded-2xl object-cover object-top shadow-lg ring-1 ring-white/15 sm:h-56 sm:w-56"
+              />
+            ) : (
+              <div
+                className="flex h-40 w-40 shrink-0 items-center justify-center rounded-2xl text-5xl font-semibold text-white/85 ring-1 ring-white/15 sm:h-56 sm:w-56"
+                style={{ background: avatarBg }}
+              >
+                {initials(member.name)}
+              </div>
+            )}
 
-            <div className="flex flex-1 flex-col justify-center gap-3 px-7 py-6 sm:px-9">
+            <div className="flex flex-col justify-center gap-3">
               <h3 className="text-2xl font-bold leading-tight text-white sm:text-3xl">
                 {member.name}
               </h3>
@@ -179,7 +179,7 @@ const MemberCard = ({ member, index, total, accent }: CardProps) => {
                 {member.role}
               </p>
               {member.areas && member.areas.length > 0 && (
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap justify-center gap-2 sm:justify-start">
                   {member.areas.map((a) => (
                     <span
                       key={a}

@@ -39,10 +39,12 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen text-white">
-      {/* Background for non-landing pages (cell field) */}
+      {/* Cell-field background. On mobile it's the background everywhere (the
+          logo build video crops too hard on a tall screen). On desktop it
+          crossfades with the logo video on the landing page. */}
       <video
         ref={otherRef}
-        className={`${videoClass} ${isLanding ? 'opacity-0' : 'opacity-100'}`}
+        className={`${videoClass} opacity-100 ${isLanding ? 'md:opacity-0' : 'md:opacity-100'}`}
         autoPlay
         muted
         loop
@@ -51,10 +53,10 @@ export default function App() {
       >
         <source src="/landing-animation.mp4" type="video/mp4" />
       </video>
-      {/* Landing-only background (logo build) — sits on top, crossfades in/out */}
+      {/* Landing-only "logo build" background — desktop only, crossfades in/out */}
       <video
         ref={landingRef}
-        className={`${videoClass} ${isLanding ? 'opacity-100' : 'opacity-0'}`}
+        className={`${videoClass} hidden md:block ${isLanding ? 'md:opacity-100' : 'md:opacity-0'}`}
         autoPlay
         muted
         loop

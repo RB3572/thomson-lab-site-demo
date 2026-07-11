@@ -20,6 +20,13 @@ export default function Home() {
     <>
       {/* Hero — the animation is the whole background here */}
       <section className="relative flex h-[92vh] flex-col items-center justify-end pb-16">
+        {/* Logo shown in front on mobile (the logo-build video crops too hard
+            on a tall phone screen, so mobile uses the plain cell background) */}
+        <img
+          src="/thomson-logo-light.png"
+          alt="Thomson Lab"
+          className="pointer-events-none absolute left-1/2 top-[42%] w-[74%] max-w-[320px] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] md:hidden"
+        />
         <div className="flex flex-col items-center gap-2 text-white/70">
           <span className="text-sm font-medium tracking-wide">Scroll to explore</span>
           <svg

@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { AnimatePresence, motion } from 'motion/react'
 import './FloatingNav.css'
 
 const NAV_ITEMS = [
@@ -118,39 +119,54 @@ export default function FloatingNav() {
               strokeWidth="2"
               strokeLinecap="round"
             >
-              {menuOpen ? (
-                <>
-                  <path d="M6 6l12 12" />
-                  <path d="M18 6L6 18" />
-                </>
-              ) : (
-                <>
-                  <path d="M4 7h16" />
-                  <path d="M4 12h16" />
-                  <path d="M4 17h16" />
-                </>
-              )}
+              <motion.path
+                d="M3 7 L21 7"
+                animate={{ d: menuOpen ? 'M6 6 L18 18' : 'M3 7 L21 7' }}
+                transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+              />
+              <motion.path
+                d="M3 12 L21 12"
+                animate={{ opacity: menuOpen ? 0 : 1 }}
+                transition={{ duration: 0.18 }}
+              />
+              <motion.path
+                d="M3 17 L21 17"
+                animate={{ d: menuOpen ? 'M6 18 L18 6' : 'M3 17 L21 17' }}
+                transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
+              />
             </svg>
           </button>
         </div>
-        {menuOpen && (
-          <div className="fnav-mobile-menu">
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item}
-                type="button"
-                className={`fnav-mobile-link ${selected === item ? 'is-active' : ''}`}
-                aria-current={selected === item ? 'page' : undefined}
-                onClick={() => {
-                  navigate(PATHS[item])
-                  setMenuOpen(false)
-                }}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-        )}
+        <AnimatePresence initial={false}>
+          {menuOpen && (
+            <motion.div
+              className="fnav-mobile-menu"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              style={{ overflow: 'hidden' }}
+            >
+              {NAV_ITEMS.map((item, i) => (
+                <motion.button
+                  key={item}
+                  type="button"
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.04 + i * 0.03, duration: 0.2 }}
+                  className={`fnav-mobile-link ${selected === item ? 'is-active' : ''}`}
+                  aria-current={selected === item ? 'page' : undefined}
+                  onClick={() => {
+                    navigate(PATHS[item])
+                    setMenuOpen(false)
+                  }}
+                >
+                  {item}
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ---- Desktop: floating pill nav ---- */}

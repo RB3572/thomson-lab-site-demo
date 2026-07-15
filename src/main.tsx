@@ -12,6 +12,7 @@ const ActiveMatter = lazy(() => import('./pages/ActiveMatter.tsx'))
 const MachineLearning = lazy(() => import('./pages/MachineLearning.tsx'))
 const SingleCell = lazy(() => import('./pages/SingleCell.tsx'))
 const Publications = lazy(() => import('./pages/Publications.tsx'))
+const Calendar = lazy(() => import('./pages/Calendar.tsx'))
 const Resources = lazy(() => import('./pages/Resources.tsx'))
 const Contact = lazy(() => import('./pages/Contact.tsx'))
 const Placeholder = lazy(() => import('./pages/Placeholder.tsx'))
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="machine-learning" element={<MachineLearning />} />
           <Route path="single-cell" element={<SingleCell />} />
           <Route path="publications" element={<Publications />} />
+          <Route path="calendar" element={<Calendar />} />
           <Route path="resources" element={<Resources />} />
           <Route path="our-team" element={<OurTeam />} />
           <Route path="contact" element={<Contact />} />

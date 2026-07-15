@@ -27,3 +27,6 @@ dist-ssr
 
 # Large source original — only the cropped public/team version is used
 assets/team/Rishi.jpg
+
+# Generated at build from src/lib/events.ts (see labCalendarFeed in vite.config)
+public/thomson-lab-events.ics

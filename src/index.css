@@ -193,33 +193,52 @@ html.light body {
   background: #f2efe9;
 }
 
-/* Swap the dark animated background for a soft light wash */
+/* Keep the animated background — just invert it to a light palette. The
+   hue-rotate keeps any colour roughly natural after the luminance flip. */
 html.light .site-bg-video {
-  display: none;
+  filter: invert(1) hue-rotate(180deg);
 }
+/* On the landing in light mode use the cell-field animation on every size: the
+   logo-build clip's inverted colours would turn the logo's yellow accent blue,
+   so we hide it and show the true-colour logo as an overlay instead. */
+html.light .site-bg-video--cells {
+  opacity: 1 !important;
+}
+html.light .site-bg-video--logo {
+  opacity: 0 !important;
+}
+/* Lighten (instead of darken) so glass + text keep contrast on the light bg */
 html.light .site-bg-scrim {
-  background: linear-gradient(to bottom, #f6f4f0 0%, #ebe8e1 60%, #e4e0d8 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 249, 246, 0.35) 0%,
+    rgba(250, 249, 246, 0.12) 45%,
+    rgba(250, 249, 246, 0.55) 100%
+  );
 }
 
-/* Landing hero: videos are hidden in light mode, so show the wordmark on a
-   dark plaque (the logo PNG is light/yellow and would vanish on the light bg). */
+/* Landing hero: show the real logo (yellow circle intact — NOT inverted) on a
+   soft glass plaque so it reads over the light animation, on every size. */
 html.light .hero-logo {
   display: block;
   filter: none;
-  width: 82%;
-  max-width: 360px;
-  padding: 30px 40px;
-  border-radius: 26px;
-  background: #1c1c1c;
-  box-shadow: 0 16px 44px -16px rgba(0, 0, 0, 0.45);
+  width: 80%;
+  max-width: 340px;
+  padding: 26px 40px;
+  border-radius: 24px;
+  background: rgba(22, 22, 22, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 18px 46px -18px rgba(0, 0, 0, 0.5);
 }
 html.light .home-reveal-scrim {
-  background: #f2efe9;
+  background: #f7f5f0;
 }
 
-/* Page backdrops (PageShell) */
+/* Page backdrops (PageShell). Non-solid lets the inverted animation show
+   through a light wash; solid pages get an opaque light backdrop. */
 html.light .page-backdrop {
-  background: transparent;
+  background: rgba(249, 247, 243, 0.62);
 }
 html.light .page-backdrop--solid {
   background: linear-gradient(to bottom, #f6f4f0, #e6e2da);
@@ -252,6 +271,12 @@ html.light .app-content .text-white\/70:not(.team-card *) {
 }
 html.light .app-content .text-white\/65:not(.team-card *) {
   color: rgba(28, 28, 28, 0.68);
+}
+html.light .app-content .text-white\/60:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.64);
+}
+html.light .app-content .text-white\/50:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.58);
 }
 html.light .app-content .text-white\/45:not(.team-card *) {
   color: rgba(28, 28, 28, 0.55);

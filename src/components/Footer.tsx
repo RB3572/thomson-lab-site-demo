@@ -17,6 +17,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     title: 'Quick Links',
     links: [
       { label: 'Publications', to: '/publications' },
+      { label: 'Calendar', to: '/calendar' },
       { label: 'Our Team', to: '/our-team' },
       { label: 'Resources', to: '/resources' },
       { label: 'Contact Us', to: '/contact' },

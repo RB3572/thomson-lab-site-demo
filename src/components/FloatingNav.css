@@ -179,7 +179,9 @@
   display: none;
 }
 
-@media (max-width: 767px) {
+/* The desktop pill holds 7 tabs (~960px); below that it would overflow, so the
+   sticky hamburger nav is used until there's room for the full pill. */
+@media (max-width: 1023px) {
   .fnav {
     display: none;
   }

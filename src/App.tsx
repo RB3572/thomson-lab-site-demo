@@ -63,7 +63,7 @@ export default function App() {
           crossfades with the logo video on the landing page. */}
       <video
         ref={otherRef}
-        className={`${videoClass} opacity-100 ${isLanding ? 'md:opacity-0' : 'md:opacity-100'}`}
+        className={`${videoClass} site-bg-video--cells opacity-100 ${isLanding ? 'md:opacity-0' : 'md:opacity-100'}`}
         autoPlay
         muted
         loop
@@ -75,7 +75,7 @@ export default function App() {
       {/* Landing-only "logo build" background — desktop only, crossfades in/out */}
       <video
         ref={landingRef}
-        className={`${videoClass} hidden md:block ${isLanding ? 'md:opacity-100' : 'md:opacity-0'}`}
+        className={`${videoClass} site-bg-video--logo hidden md:block ${isLanding ? 'md:opacity-100' : 'md:opacity-0'}`}
         autoPlay
         muted
         loop

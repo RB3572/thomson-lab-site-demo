@@ -111,7 +111,7 @@ const MemberCard = ({ member, index, total, accent }: CardProps) => {
 
         {/* Glass body */}
         <div
-          className="relative h-full w-full overflow-hidden"
+          className="team-card relative h-full w-full overflow-hidden"
           style={{
             borderRadius: '24px',
             background:

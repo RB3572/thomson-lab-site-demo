@@ -18,8 +18,8 @@ export default function PageShell({
         aria-hidden="true"
         className={
           solid
-            ? 'fixed inset-0 -z-[5] bg-gradient-to-b from-[#1a1a1a] to-[#0b0b0b]'
-            : 'fixed inset-0 -z-[5] bg-black/60'
+            ? 'page-backdrop page-backdrop--solid fixed inset-0 -z-[5] bg-gradient-to-b from-[#1a1a1a] to-[#0b0b0b]'
+            : 'page-backdrop fixed inset-0 -z-[5] bg-black/60'
         }
       />
       <main className="relative mx-auto max-w-5xl px-6 pb-28 pt-14 sm:pt-20">

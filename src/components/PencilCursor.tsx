@@ -1,9 +1,19 @@
 import { useEffect, useRef } from 'react'
 
+interface Speck {
+  x: number
+  y: number
+  size: number
+  /** per-speck alpha multiplier (baked once so the grain never shimmers) */
+  a: number
+}
+
 interface Pt {
   x: number
   y: number
   t: number
+  /** graphite grain for the segment ending at this point — computed ONCE */
+  specks: Speck[]
 }
 
 /** A graphite "blunt pencil" trail that follows the mouse and fades with time. */
@@ -34,7 +44,30 @@ export default function PencilCursor() {
 
     const onMove = (e: MouseEvent) => {
       mouseInside = true
-      pts.push({ x: e.clientX, y: e.clientY, t: performance.now() })
+      const b = { x: e.clientX, y: e.clientY, t: performance.now(), specks: [] as Speck[] }
+      const a = pts[pts.length - 1]
+      if (a) {
+        // Bake the grain for the segment a->b ONCE, at fixed positions, so the
+        // stroke stays put after it's drawn (only its alpha fades over time).
+        const dx = b.x - a.x
+        const dy = b.y - a.y
+        const dist = Math.hypot(dx, dy) || 1
+        const px = -dy / dist
+        const py = dx / dist
+        const halfW = 3.6 // lateral grain spread (constant; stroke no longer thins by re-scatter)
+        const specks = Math.max(3, Math.floor(dist * 2))
+        for (let s = 0; s < specks; s++) {
+          const t = Math.random()
+          const off = (Math.random() - 0.5 + (Math.random() - 0.5)) * halfW
+          b.specks.push({
+            x: a.x + dx * t + px * off,
+            y: a.y + dy * t + py * off,
+            size: 0.6 + Math.random() * 1.1,
+            a: 0.16 + Math.random() * 0.26,
+          })
+        }
+      }
+      pts.push(b)
       // cap length
       if (pts.length > 120) pts = pts.slice(-120)
     }
@@ -51,37 +84,17 @@ export default function PencilCursor() {
       pts = pts.filter((p) => now - p.t < LIFE)
 
       for (let i = 1; i < pts.length; i++) {
-        const a = pts[i - 1]
         const b = pts[i]
         const age = now - b.t
         const life = 1 - age / LIFE // 1 -> 0
         if (life <= 0) continue
 
-        // Light graphite pencil: instead of a solid line, scatter faint
-        // graphite specks along the segment so it reads as grainy pencil shading.
-        const dx = b.x - a.x
-        const dy = b.y - a.y
-        const dist = Math.hypot(dx, dy) || 1
-        // unit perpendicular for lateral grain spread
-        const px = -dy / dist
-        const py = dx / dist
-        // half-width of the stroke (thins as it fades)
-        const halfW = 1 + life * 3.2
-        // grain density scales with length + width
-        const specks = Math.max(3, Math.floor(dist * (1.2 + life * 1.5)))
-
-        for (let s = 0; s < specks; s++) {
-          const t = Math.random()
-          // gaussian-ish lateral offset (denser toward the centre)
-          const off =
-            (Math.random() - 0.5 + (Math.random() - 0.5)) * halfW
-          const gx = a.x + dx * t + px * off
-          const gy = a.y + dy * t + py * off
-          const size = 0.6 + Math.random() * 1.1
-          // graphite, randomised for texture but stronger/darker
-          const alpha = life * (0.16 + Math.random() * 0.26)
-          ctx.fillStyle = `rgba(54,49,42,${alpha})`
-          ctx.fillRect(gx, gy, size, size)
+        // Render the pre-baked grain: fixed positions, only the alpha fades.
+        // This keeps the drawn stroke perfectly still (no shimmer/vibration).
+        for (let s = 0; s < b.specks.length; s++) {
+          const g = b.specks[s]
+          ctx.fillStyle = `rgba(54,49,42,${life * g.a})`
+          ctx.fillRect(g.x, g.y, g.size, g.size)
         }
       }
 

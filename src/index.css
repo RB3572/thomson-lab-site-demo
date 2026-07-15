@@ -37,7 +37,7 @@ a {
 .notebook {
   --rule: 34px; /* spacing between ruled lines */
   --margin: 84px; /* x-position of the red margin line */
-  --paper: #f3ecdb;
+  --paper: #f9f4e8;
   overflow-x: hidden;
   --ink: #38352d; /* graphite */
   --rule-color: rgba(120, 104, 82, 0.32);
@@ -162,9 +162,127 @@ a {
   right: -14px;
   transform: rotate(40deg);
 }
+.tape-bl {
+  bottom: -11px;
+  left: -14px;
+  transform: rotate(40deg);
+}
+.tape-br {
+  bottom: -11px;
+  right: -14px;
+  transform: rotate(-38deg);
+}
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* ============================================================================
+   Light mode — toggled from the footer (adds `light` class to <html>).
+   The nav and footer stay dark on purpose (the wordmark logo is a light PNG),
+   so overrides are scoped to `.app-content` — the routed page content. The
+   team glass cards (.team-card) opt out and keep their dark treatment.
+   ============================================================================ */
+html.light {
+  color: #1c1c1c;
+  background: #f2efe9;
+}
+html.light body {
+  background: #f2efe9;
+}
+
+/* Swap the dark animated background for a soft light wash */
+html.light .site-bg-video {
+  display: none;
+}
+html.light .site-bg-scrim {
+  background: linear-gradient(to bottom, #f6f4f0 0%, #ebe8e1 60%, #e4e0d8 100%);
+}
+
+/* Landing hero: videos are hidden in light mode, so show the wordmark on a
+   dark plaque (the logo PNG is light/yellow and would vanish on the light bg). */
+html.light .hero-logo {
+  display: block;
+  filter: none;
+  width: 82%;
+  max-width: 360px;
+  padding: 30px 40px;
+  border-radius: 26px;
+  background: #1c1c1c;
+  box-shadow: 0 16px 44px -16px rgba(0, 0, 0, 0.45);
+}
+html.light .home-reveal-scrim {
+  background: #f2efe9;
+}
+
+/* Page backdrops (PageShell) */
+html.light .page-backdrop {
+  background: transparent;
+}
+html.light .page-backdrop--solid {
+  background: linear-gradient(to bottom, #f6f4f0, #e6e2da);
+}
+
+/* --- Text tokens (skip the team cards, which stay dark) --- */
+html.light .app-content .text-white:not(.team-card *) {
+  color: #1c1c1c;
+}
+html.light .app-content .text-white\/95:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.95);
+}
+html.light .app-content .text-white\/90:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.9);
+}
+html.light .app-content .text-white\/85:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.86);
+}
+html.light .app-content .text-white\/80:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.82);
+}
+html.light .app-content .text-white\/75:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.78);
+}
+html.light .app-content .text-white\/72:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.75);
+}
+html.light .app-content .text-white\/70:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.72);
+}
+html.light .app-content .text-white\/65:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.68);
+}
+html.light .app-content .text-white\/45:not(.team-card *) {
+  color: rgba(28, 28, 28, 0.55);
+}
+
+/* --- Surfaces --- */
+html.light .app-content .bg-\[\#111111\]\/70:not(.team-card *) {
+  background-color: rgba(255, 255, 255, 0.82);
+}
+html.light .app-content .bg-white\/10:not(.team-card *) {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* --- Borders --- */
+html.light .app-content .border-white\/10:not(.team-card *) {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+html.light .app-content .border-white\/15:not(.team-card *) {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+html.light .app-content .border-white\/20:not(.team-card *) {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+/* Accent gold darkened for contrast on light surfaces */
+html.light .app-content .text-\[\#f7cc34\]:not(.team-card *) {
+  color: #a97b0a;
+}
+
+/* Team cards stay dark & readable even though the page behind is now light */
+html.light .team-card {
+  background:
+    linear-gradient(145deg, rgba(52, 52, 52, 0.92), rgba(24, 24, 24, 0.94)) !important;
 }

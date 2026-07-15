@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTheme } from '@/lib/theme'
 
 type FooterLink = { label: string; to?: string; href?: string }
 
@@ -53,6 +54,49 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
     <Link className={linkClass} to={link.to ?? '/'}>
       {link.label}
     </Link>
+  )
+}
+
+function ThemeToggle() {
+  const { theme, toggle } = useTheme()
+  const isLight = theme === 'light'
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
+      className="footer-theme-toggle inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:border-[#f7cc34] hover:text-white"
+    >
+      {isLight ? (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-4 w-4"
+          aria-hidden="true"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      ) : (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-4 w-4"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      )}
+      {isLight ? 'Dark mode' : 'Light mode'}
+    </button>
   )
 }
 
@@ -147,8 +191,9 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 border-t border-white/10 pt-8">
+        <div className="mt-14 flex flex-col-reverse items-start gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-white/45">© 2026 Thomson Lab.</p>
+          <ThemeToggle />
         </div>
       </div>
     </footer>

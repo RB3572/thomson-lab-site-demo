@@ -7,8 +7,8 @@ const PAPER = {
   scale: 1.1,
   speed: 0,
   frame: 0,
-  colorBack: '#f3ecdb',
-  colorFront: '#d9cdb0',
+  colorBack: '#f9f4e8',
+  colorFront: '#e7ddc7',
   contrast: 0.32,
   roughness: 0.55,
   fiber: 0.35,
@@ -22,6 +22,22 @@ const PAPER = {
   seed: 12,
 }
 
+/** Two-corner tape combos, each guaranteed at least one top corner. */
+const TAPE_COMBOS = [
+  ['tape-tl', 'tape-tr'], // both top
+  ['tape-tr', 'tape-bl'], // top-right + bottom-left
+  ['tape-tl', 'tape-br'], // top-left + bottom-right
+  ['tape-tr', 'tape-br'], // top-right + bottom-right
+  ['tape-tl', 'tape-bl'], // top-left + bottom-left
+] as const
+
+/** Stable hash of a string so a figure keeps the same tape layout across renders. */
+function hash(s: string) {
+  let h = 0
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0
+  return Math.abs(h)
+}
+
 export default function Publications() {
   let figIdx = 0
   return (
@@ -30,7 +46,7 @@ export default function Publications() {
           behind the shader so the sheet is never blank if WebGL is unavailable. */}
       <div
         className="fixed inset-0 -z-[3]"
-        style={{ background: '#f3ecdb' }}
+        style={{ background: '#f9f4e8' }}
         aria-hidden="true"
       >
         <PaperTexture {...PAPER} style={{ width: '100%', height: '100%' }} />
@@ -65,6 +81,8 @@ export default function Publications() {
               {group.items.map((pub) => {
                 const rot = figIdx % 2 === 0 ? -2.2 : 2.4
                 figIdx += 1
+                const [tapeA, tapeB] =
+                  TAPE_COMBOS[hash(pub.title) % TAPE_COMBOS.length]
                 return (
                   <article
                     key={pub.title}
@@ -75,8 +93,8 @@ export default function Publications() {
                         className="taped float-right mb-3 ml-4 w-[112px] md:ml-6 md:w-[190px]"
                         style={{ transform: `rotate(${rot}deg)` }}
                       >
-                        <span className="tape tape-tl" />
-                        <span className="tape tape-tr" />
+                        <span className={`tape ${tapeA}`} />
+                        <span className={`tape ${tapeB}`} />
                         <img src={pub.img} alt="" loading="lazy" />
                       </figure>
                     )}

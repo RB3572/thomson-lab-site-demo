@@ -38,7 +38,7 @@ export function TopicSections({ blocks }: { blocks: TopicBlock[] }) {
             </div>
             {hasImg && (
               <div className={flip ? 'md:order-1' : ''}>
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4">
+                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white p-4 shadow-lg">
                   <img
                     src={b.img}
                     alt=""

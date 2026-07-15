@@ -25,7 +25,7 @@ export default function Home() {
         <img
           src="/thomson-logo-light.png"
           alt="Thomson Lab"
-          className="pointer-events-none absolute left-1/2 top-[42%] w-[74%] max-w-[320px] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] md:hidden"
+          className="hero-logo pointer-events-none absolute left-1/2 top-[42%] w-[74%] max-w-[320px] -translate-x-1/2 -translate-y-1/2 drop-shadow-[0_4px_18px_rgba(0,0,0,0.55)] md:hidden"
         />
         <div className="flex flex-col items-center gap-2 text-white/70">
           <span className="text-sm font-medium tracking-wide">Scroll to explore</span>
@@ -102,7 +102,7 @@ export default function Home() {
           <motion.div
             aria-hidden="true"
             style={{ opacity: scrimOpacity }}
-            className="pointer-events-none absolute inset-0 rounded-[28px] bg-[#0a0a0a]"
+            className="home-reveal-scrim pointer-events-none absolute inset-0 rounded-[28px] bg-[#0a0a0a]"
           />
         </motion.div>
       </section>

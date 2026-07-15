@@ -10,10 +10,29 @@ export default function App() {
   const landingRef = useRef<HTMLVideoElement>(null)
   const otherRef = useRef<HTMLVideoElement>(null)
 
+  // Take over scroll position from the browser: its automatic restoration can
+  // re-apply a previous scroll AFTER our reset, once late assets (the background
+  // videos, images) change the page height — which on mobile makes the landing
+  // page load already scrolled down.
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+  }, [])
+
   // Start each page at the top (matters for the scroll-driven pages).
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [pathname])
+    // Re-assert top on the landing page after assets load and shift layout.
+    if (!isLanding) return
+    const toTop = () => window.scrollTo(0, 0)
+    const raf = requestAnimationFrame(toTop)
+    window.addEventListener('load', toTop)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('load', toTop)
+    }
+  }, [pathname, isLanding])
 
   // Crossfade to the SAME frame: sync the incoming video's time to the outgoing
   // one before the opacity transition, so the dissolve feels seamless. Both
@@ -35,7 +54,7 @@ export default function App() {
   }, [isLanding])
 
   const videoClass =
-    'fixed inset-0 -z-20 h-full w-full object-cover transition-opacity duration-700 ease-in-out'
+    'site-bg-video fixed inset-0 -z-20 h-full w-full object-cover transition-opacity duration-700 ease-in-out'
 
   return (
     <div className="relative min-h-screen text-white">
@@ -67,12 +86,14 @@ export default function App() {
       </video>
 
       {/* Gentle darkening for consistent contrast under the glass */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+      <div className="site-bg-scrim fixed inset-0 -z-10 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
 
       <FloatingNav />
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <div className="app-content">
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
+      </div>
       <Footer />
     </div>
   )

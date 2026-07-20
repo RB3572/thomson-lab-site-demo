@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import PageShell from '@/components/PageShell'
+import InstitutionalShell, { InstSection } from '@/components/InstitutionalShell'
 
 const AREAS = [
   {
@@ -24,39 +24,64 @@ const AREAS = [
 
 export default function Research() {
   return (
-    <PageShell
+    <InstitutionalShell
       title="Research"
       intro="The Thomson Lab investigates biological principles across multiple model systems — studying how cells manipulate matter in time and space to move, divide, and change shape. We combine expertise from biochemistry, computer science, molecular biology, and physics, united by a shared commitment to exploring the principles underlying collective organization and intelligence in biology."
     >
-      <div className="grid gap-6 md:grid-cols-3">
-        {AREAS.map((a) => (
-          <Link
-            key={a.title}
-            to={a.to}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111111]/70 backdrop-blur-md transition-colors hover:border-[#f7cc34]/60"
-          >
-            <div className="flex h-44 items-center justify-center bg-white/5 p-4">
-              <img
-                src={a.img}
-                alt=""
-                className="max-h-full max-w-full object-contain"
-              />
-            </div>
-            <div className="flex flex-1 flex-col p-6">
-              <h2 className="text-xl font-bold text-white">{a.title}</h2>
-              <p className="mt-3 flex-1 text-sm leading-relaxed text-white/75">
-                {a.text}
-              </p>
-              <span className="mt-4 text-sm font-semibold text-[#f7cc34]">
-                Learn more{' '}
-                <span className="inline-block transition-transform group-hover:translate-x-1">
-                  →
+      <InstSection label="Areas of Research" heading="Research Programs" tone="warm">
+        <div className="grid gap-6 md:grid-cols-3">
+          {AREAS.map((a) => (
+            <Link
+              key={a.title}
+              to={a.to}
+              className="group inst-card flex flex-col transition-colors"
+            >
+              {/* Formal figure plate — white frame, thin neutral border */}
+              <div
+                className="flex h-44 items-center justify-center bg-white p-4"
+                style={{ borderBottom: '1px solid var(--inst-border)' }}
+              >
+                <img
+                  src={a.img}
+                  alt=""
+                  loading="lazy"
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <h3 className="inst-serif text-xl">{a.title}</h3>
+                <p className="inst-muted mt-3 flex-1 text-[0.95rem] leading-relaxed">
+                  {a.text}
+                </p>
+                <span className="inst-link mt-5 text-sm">
+                  Explore{' '}
+                  <span className="inline-block transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
                 </span>
-              </span>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </PageShell>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </InstSection>
+
+      <InstSection label="Approach" heading="How We Work">
+        <div className="max-w-3xl space-y-5 text-[1.02rem] leading-relaxed">
+          <p className="inst-muted">
+            We formulate predictive mathematical models using high-dimensional
+            data, then apply those models to reprogram and engineer biological
+            systems to achieve new behaviors. Recent work has focused on
+            cytoskeletal active matter and cellular self-organization in neural
+            circuit development.
+          </p>
+          <p className="inst-muted">
+            Our goal is to understand how unexplained properties of biological
+            systems — including their mechanical organization and their ability
+            to process information — emerge from collective interactions across
+            molecular, cellular, and organismal scales.
+          </p>
+        </div>
+      </InstSection>
+    </InstitutionalShell>
   )
 }

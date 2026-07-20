@@ -57,7 +57,9 @@ export default function App() {
     'site-bg-video fixed inset-0 -z-20 h-full w-full object-cover transition-opacity duration-700 ease-in-out'
 
   return (
-    <div className="relative min-h-screen text-white">
+    // Flex column + flex-1 content keeps the footer at the bottom on short
+    // pages, so no background shows below it.
+    <div className="relative flex min-h-screen flex-col text-white">
       {/* Cell-field background. On mobile it's the background everywhere (the
           logo build video crops too hard on a tall screen). On desktop it
           crossfades with the logo video on the landing page. */}
@@ -89,7 +91,7 @@ export default function App() {
       <div className="site-bg-scrim fixed inset-0 -z-10 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
 
       <FloatingNav />
-      <div className="app-content">
+      <div className="app-content flex-1">
         <Suspense fallback={null}>
           <Outlet />
         </Suspense>

@@ -1,4 +1,4 @@
-import PageShell from '@/components/PageShell'
+import InstitutionalShell, { InstSection } from '@/components/InstitutionalShell'
 
 type ResLink = { label: string; href: string }
 const RESOURCES: { title: string; text: string; links: ResLink[] }[] = [
@@ -40,38 +40,58 @@ const RESOURCES: { title: string; text: string; links: ResLink[] }[] = [
   },
 ]
 
+function ExternalIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-3.5 w-3.5"
+      aria-hidden="true"
+    >
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <path d="M15 3h6v6M10 14 21 3" />
+    </svg>
+  )
+}
+
 export default function Resources() {
   return (
-    <PageShell
+    <InstitutionalShell
       title="Links & Resources"
       intro="A curated collection of open-source tools and research outputs from the Thomson Lab."
     >
-      <div className="grid gap-6 md:grid-cols-2">
-        {RESOURCES.map((r) => (
-          <article
-            key={r.title}
-            className="flex flex-col rounded-2xl border border-white/10 bg-[#111111]/70 p-7 backdrop-blur-md"
-          >
-            <h2 className="text-xl font-bold text-white">{r.title}</h2>
-            <p className="mt-3 flex-1 text-sm leading-relaxed text-white/75">
-              {r.text}
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              {r.links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:border-[#f7cc34] hover:text-[#f7cc34]"
-                >
-                  {l.label}
-                </a>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </PageShell>
+      <InstSection label="Open Source" heading="Tools & Outputs" tone="warm">
+        <div className="grid gap-6 md:grid-cols-2">
+          {RESOURCES.map((r) => (
+            <article key={r.title} className="inst-card flex flex-col p-7">
+              <h3 className="inst-serif text-xl">{r.title}</h3>
+              <p className="inst-muted mt-3 flex-1 text-[0.95rem] leading-relaxed">
+                {r.text}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                {r.links.map((l, i) => (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`inst-btn ${
+                      i === 0 ? 'inst-btn-primary' : 'inst-btn-secondary'
+                    }`}
+                  >
+                    {l.label}
+                    <ExternalIcon />
+                  </a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </InstSection>
+    </InstitutionalShell>
   )
 }

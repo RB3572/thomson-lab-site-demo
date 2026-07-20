@@ -1,7 +1,16 @@
-import { Link } from 'react-router-dom'
-import { useTheme } from '@/lib/theme'
+import { Link, useLocation } from 'react-router-dom'
 
 type FooterLink = { label: string; to?: string; href?: string }
+
+/** Routes that render the white, institutional theme — the footer goes light. */
+const INSTITUTIONAL_PATHS = new Set([
+  '/research',
+  '/calendar',
+  '/resources',
+  '/contact',
+  '/secure-resources',
+  '/admin',
+])
 
 const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
@@ -35,14 +44,11 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   },
 ]
 
-const linkClass =
-  'text-[#b4b4b4] transition-colors hover:text-white focus-visible:text-white'
-
 function FooterLinkItem({ link }: { link: FooterLink }) {
   if (link.href) {
     return (
       <a
-        className={linkClass}
+        className="footer-link"
         href={link.href}
         target="_blank"
         rel="noreferrer"
@@ -52,77 +58,48 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
     )
   }
   return (
-    <Link className={linkClass} to={link.to ?? '/'}>
+    <Link className="footer-link" to={link.to ?? '/'}>
       {link.label}
     </Link>
   )
 }
 
-function ThemeToggle() {
-  const { theme, toggle } = useTheme()
-  const isLight = theme === 'light'
-  return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={isLight ? 'Switch to dark mode' : 'Switch to light mode'}
-      className="footer-theme-toggle inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:border-[#f7cc34] hover:text-white"
-    >
-      {isLight ? (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-4 w-4"
-          aria-hidden="true"
-        >
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
-      ) : (
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-4 w-4"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-        </svg>
-      )}
-      {isLight ? 'Dark mode' : 'Light mode'}
-    </button>
-  )
-}
-
 export default function Footer() {
+  const { pathname } = useLocation()
+  const light = INSTITUTIONAL_PATHS.has(pathname)
+
   return (
-    <footer className="relative z-10 bg-[#262626] text-white">
+    <footer
+      className="site-footer relative z-10"
+      data-light={light ? 'true' : undefined}
+    >
       <div className="mx-auto max-w-[1240px] px-6 py-16 sm:px-10">
         <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
-          {/* Brand */}
+          {/* Brand — the wordmark PNG is white, so on the light footer we show a
+              dark text wordmark instead (a brightness filter would black out the
+              logo's DNA dot into a blob). */}
           <div>
-            <img
-              src="/thomson-logo-light.png"
-              alt="Thomson Lab"
-              className="h-8 w-auto"
-            />
-            <p className="mt-5 text-[1.05rem] text-[#b4b4b4]">
+            {light ? (
+              <span className="footer-heading text-2xl font-extrabold tracking-tight">
+                Thomson Lab
+              </span>
+            ) : (
+              <img
+                src="/thomson-logo-light.png"
+                alt="Thomson Lab"
+                className="h-8 w-auto"
+              />
+            )}
+            <p className="footer-tagline mt-5 text-[1.05rem]">
               The laboratory of living algorithms
             </p>
-            <div className="mt-6 flex items-center gap-5 text-white/70">
+            <div className="mt-6 flex items-center gap-5">
               <a
                 aria-label="Thomson Lab website"
                 href="https://thomsonlab.caltech.edu"
                 target="_blank"
                 rel="noreferrer"
-                className="transition-colors hover:text-white"
+                className="footer-social"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -144,7 +121,7 @@ export default function Footer() {
               <Link
                 aria-label="Contact us"
                 to="/contact"
-                className="transition-colors hover:text-white"
+                className="footer-social"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -166,7 +143,7 @@ export default function Footer() {
           {/* Link columns */}
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h3 className="text-base font-bold text-white">{col.title}</h3>
+              <h3 className="footer-heading text-base font-bold">{col.title}</h3>
               <ul className="mt-5 space-y-3.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
@@ -192,9 +169,8 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col-reverse items-start gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-white/45">© 2026 Thomson Lab.</p>
-          <ThemeToggle />
+        <div className="footer-divider mt-14 border-t pt-8">
+          <p className="footer-copyright text-sm">© 2026 Thomson Lab.</p>
         </div>
       </div>
     </footer>

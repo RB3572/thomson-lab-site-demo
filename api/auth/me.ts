@@ -1,0 +1,29 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { getSession } from '../../server/session'
+import { isAdminEmail } from '../../server/config'
+import { isAllowlisted } from '../../server/auth'
+import { sendJson } from '../../server/http'
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const session = await getSession(req)
+  if (!session) {
+    sendJson(res, 200, { authenticated: false })
+    return
+  }
+  const admin = isAdminEmail(session.email)
+  let allowlisted = admin
+  if (!admin) {
+    try {
+      allowlisted = await isAllowlisted(session.email)
+    } catch {
+      allowlisted = false
+    }
+  }
+  sendJson(res, 200, {
+    authenticated: true,
+    email: session.email,
+    name: session.name ?? null,
+    isAdmin: admin,
+    isAllowlisted: allowlisted,
+  })
+}

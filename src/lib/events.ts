@@ -83,11 +83,19 @@ export function ptDateLong(d: Date): string {
   }).format(d)
 }
 
-/** Upcoming events (not yet ended), soonest first. */
-export function upcomingEvents(now: Date = new Date()): LabEvent[] {
-  return events
+/** Upcoming events (not yet ended) from a given list, soonest first. */
+export function upcomingFrom(
+  list: LabEvent[],
+  now: Date = new Date(),
+): LabEvent[] {
+  return list
     .filter((e) => eventEnd(e) >= now)
     .sort((a, b) => eventStart(a).getTime() - eventStart(b).getTime())
+}
+
+/** Upcoming events from the bundled static list, soonest first. */
+export function upcomingEvents(now: Date = new Date()): LabEvent[] {
+  return upcomingFrom(events, now)
 }
 
 // ---------------------------------------------------------------------------

@@ -1,18 +1,26 @@
-import { useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from 'react'
 import InstitutionalShell, { InstSection } from '@/components/InstitutionalShell'
 import {
   dayKey,
   eventStart,
-  events,
+  events as staticEvents,
   googleCalUrl,
   ptDateLong,
   ptDayKey,
   ptTime,
   ptYMD,
-  upcomingEvents,
+  upcomingFrom,
   type LabEvent,
 } from '@/lib/events'
 import { downloadICS, subscriptionUrl } from '@/lib/calendar-client'
+import { fetchJson } from '@/lib/api'
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const MONTHS = [
@@ -75,10 +83,12 @@ function PinIcon() {
 }
 
 function MonthCalendar({
+  events,
   eventDays,
   selectedKey,
   onSelectDay,
 }: {
+  events: LabEvent[]
   /** Set of dayKeys (Pacific) that have an event. */
   eventDays: Set<string>
   selectedKey: string | null
@@ -89,7 +99,7 @@ function MonthCalendar({
   const todayKey = ptDayKey(now)
 
   // Anchor the initial view to the month of the soonest upcoming event, or today.
-  const soonest = upcomingEvents(now)[0]
+  const soonest = upcomingFrom(events, now)[0]
   const anchor = soonest ? ptYMD(eventStart(soonest)) : ptYMD(now)
   const [view, setView] = useState({ y: anchor.y, m: anchor.m })
 
@@ -273,10 +283,19 @@ function EventCard({ event }: { event: LabEvent }) {
 
 export default function Calendar() {
   const now = useMemo(() => new Date(), [])
-  const upcoming = useMemo(() => upcomingEvents(now), [now])
+  // Bundled events render immediately; live data (with admin additions) swaps
+  // in once the API responds, falling back to static if it's unavailable.
+  const [events, setEvents] = useState<LabEvent[]>(staticEvents)
+  useEffect(() => {
+    fetchJson<{ events: LabEvent[] }>('/api/events').then((d) => {
+      if (d?.events) setEvents(d.events)
+    })
+  }, [])
+
+  const upcoming = useMemo(() => upcomingFrom(events, now), [events, now])
   const eventDays = useMemo(
     () => new Set(events.map((e) => ptDayKey(eventStart(e)))),
-    [],
+    [events],
   )
   const [selectedKey, setSelectedKey] = useState<string | null>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
@@ -288,7 +307,7 @@ export default function Calendar() {
     return events
       .filter((e) => ptDayKey(eventStart(e)) === selectedKey)
       .sort((a, b) => eventStart(a).getTime() - eventStart(b).getTime())
-  }, [selectedKey])
+  }, [selectedKey, events])
 
   const listed = dayEvents ?? upcoming
   const heading =
@@ -335,6 +354,7 @@ export default function Calendar() {
       <InstSection label="Schedule">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-start">
           <MonthCalendar
+            events={events}
             eventDays={eventDays}
             selectedKey={selectedKey}
             onSelectDay={onSelectDay}

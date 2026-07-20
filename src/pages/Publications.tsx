@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react'
 import { PaperTexture } from '@/components/ui/paper-texture'
 import PencilCursor from '@/components/PencilCursor'
-import { publications } from '@/lib/publications'
+import { publications as staticPublications, type PubYear } from '@/lib/publications'
+import { fetchJson } from '@/lib/api'
 
 const PAPER = {
   fit: 'cover' as const,
@@ -39,6 +41,13 @@ function hash(s: string) {
 }
 
 export default function Publications() {
+  const [publications, setPublications] = useState<PubYear[]>(staticPublications)
+  useEffect(() => {
+    fetchJson<{ years: PubYear[] }>('/api/publications').then((d) => {
+      if (d?.years?.length) setPublications(d.years)
+    })
+  }, [])
+
   let figIdx = 0
   return (
     <div className="notebook relative min-h-screen text-[#38352d] md:-mt-[82px]">

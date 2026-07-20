@@ -1,4 +1,7 @@
-import { CALENDAR_FEED_PATH, toICS, type LabEvent } from './events'
+import { toICS, type LabEvent } from './events'
+
+/** Live, database-backed iCal feed served by the /api/calendar function. */
+const CALENDAR_FEED_PATH = '/api/calendar'
 
 /** Browser-only calendar helpers (kept out of events.ts so that module stays
  *  Node-safe for the build-time feed generator in vite.config). */

@@ -1,7 +1,18 @@
+import { useEffect, useState } from 'react'
 import { CardStack } from '@/components/ui/glass-cards'
-import { team } from '@/lib/team'
+import { team as staticTeam, type TeamSection } from '@/lib/team'
+import { fetchJson } from '@/lib/api'
 
 export default function OurTeam() {
+  // Show the bundled roster immediately; swap in live data (with admin edits)
+  // once the API responds. Falls back to static if the API/DB is unavailable.
+  const [team, setTeam] = useState<TeamSection[]>(staticTeam)
+  useEffect(() => {
+    fetchJson<{ sections: TeamSection[] }>('/api/members').then((d) => {
+      if (d?.sections?.length) setTeam(d.sections)
+    })
+  }, [])
+
   return (
     <main className="relative">
       {/* Page hero */}

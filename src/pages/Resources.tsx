@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import InstitutionalShell, { InstSection } from '@/components/InstitutionalShell'
 
 type ResLink = { label: string; href: string }
@@ -90,6 +91,34 @@ export default function Resources() {
               </div>
             </article>
           ))}
+        </div>
+      </InstSection>
+
+      <InstSection label="Members" heading="Secure Resources">
+        <div className="inst-card flex flex-col gap-5 p-7 sm:flex-row sm:items-center sm:justify-between">
+          <div className="max-w-2xl">
+            <p className="inst-muted text-[0.95rem] leading-relaxed">
+              Internal materials — including Caltech presentation assets, logos,
+              and slide templates — shared with verified lab members. Sign in
+              with your Caltech email to access.
+            </p>
+          </div>
+          <Link to="/secure-resources" className="inst-btn inst-btn-primary shrink-0">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+              aria-hidden="true"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            Secure Resources
+          </Link>
         </div>
       </InstSection>
     </InstitutionalShell>

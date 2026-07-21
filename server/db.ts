@@ -1,4 +1,4 @@
-import { neon } from '@neondatabase/serverless'
+import { neon, type NeonQueryFunction } from '@neondatabase/serverless'
 import { team } from '../src/lib/team'
 import { publications as staticPublications } from '../src/lib/publications'
 import { events as staticEvents } from '../src/lib/events'
@@ -13,7 +13,18 @@ const connectionString =
   process.env.DATABASE_URL_UNPOOLED ||
   ''
 
-const sql = neon(connectionString)
+// Create the client LAZILY. neon() throws if the connection string is empty, so
+// building it at module load would crash the whole function (FUNCTION_INVOCATION_FAILED)
+// before any handler could run. Deferring it turns a missing DATABASE_URL into a
+// normal, catchable error at query time instead.
+let client: NeonQueryFunction<false, false> | null = null
+const sql = ((strings: TemplateStringsArray, ...values: unknown[]) => {
+  if (!client) {
+    if (!connectionString) throw new Error('DATABASE_URL is not configured')
+    client = neon(connectionString)
+  }
+  return client(strings, ...values)
+}) as unknown as NeonQueryFunction<false, false>
 
 // ---------------------------------------------------------------------------
 // Schema (idempotent) + one-time seed from the bundled static data

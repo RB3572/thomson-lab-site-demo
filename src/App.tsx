@@ -2,6 +2,7 @@ import { Suspense, useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import FloatingNav from './components/FloatingNav'
 import Footer from './components/Footer'
+import AuthErrorBanner from './components/AuthErrorBanner'
 
 export default function App() {
   const { pathname } = useLocation()
@@ -90,6 +91,7 @@ export default function App() {
       {/* Gentle darkening for consistent contrast under the glass */}
       <div className="site-bg-scrim fixed inset-0 -z-10 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
 
+      <AuthErrorBanner />
       <FloatingNav />
       <div className="app-content flex-1">
         <Suspense fallback={null}>

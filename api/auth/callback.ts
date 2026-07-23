@@ -2,20 +2,20 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 import {
   exchangeCodeForIdToken,
   verifyGoogleIdToken,
-} from '../../server/google'
+} from '../../server/google.js'
 import {
   clearCookie,
   createSessionToken,
   parseCookies,
   setCookie,
-} from '../../server/session'
+} from '../../server/session.js'
 import {
   SESSION_COOKIE,
   SESSION_TTL_SECONDS,
   STATE_COOKIE,
   requireEnv,
-} from '../../server/config'
-import { getBaseUrl, safeNextPath } from '../../server/http'
+} from '../../server/config.js'
+import { getBaseUrl, safeNextPath } from '../../server/http.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const code = typeof req.query.code === 'string' ? req.query.code : ''

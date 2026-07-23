@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { getSession } from '../../server/session'
-import { isAdminEmail } from '../../server/config'
-import { isAllowlisted } from '../../server/auth'
-import { sendJson } from '../../server/http'
+import { getSession } from '../../server/session.js'
+import { isAdminEmail } from '../../server/config.js'
+import { isAllowlisted } from '../../server/auth.js'
+import { sendJson } from '../../server/http.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const session = await getSession(req)

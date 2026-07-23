@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { createEvent, deleteEvent, listEvents } from '../server/db'
-import { requireAdmin } from '../server/auth'
-import { readJsonBody, sendJson } from '../server/http'
+import { createEvent, deleteEvent, listEvents } from '../server/db.js'
+import { requireAdmin } from '../server/auth.js'
+import { readJsonBody, sendJson } from '../server/http.js'
 
 function coerceEvent(b: Record<string, unknown>) {
   const duration = Number(b.durationMin)

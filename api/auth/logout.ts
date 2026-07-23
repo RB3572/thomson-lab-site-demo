@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { clearCookie } from '../../server/session'
-import { SESSION_COOKIE } from '../../server/config'
-import { sendJson } from '../../server/http'
+import { clearCookie } from '../../server/session.js'
+import { SESSION_COOKIE } from '../../server/config.js'
+import { sendJson } from '../../server/http.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   clearCookie(res, SESSION_COOKIE)

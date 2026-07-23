@@ -4,9 +4,9 @@ import {
   deletePublication,
   getPublicationsGrouped,
   listPublicationsFlat,
-} from '../server/db'
-import { requireAdmin } from '../server/auth'
-import { readJsonBody, sendJson } from '../server/http'
+} from '../server/db.js'
+import { requireAdmin } from '../server/auth.js'
+import { readJsonBody, sendJson } from '../server/http.js'
 
 function coercePublication(b: Record<string, unknown>) {
   return {

@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { randomBytes } from 'node:crypto'
-import { buildGoogleAuthUrl } from '../../server/google'
-import { setCookie } from '../../server/session'
-import { STATE_COOKIE, requireEnv } from '../../server/config'
-import { getBaseUrl, safeNextPath } from '../../server/http'
+import { buildGoogleAuthUrl } from '../../server/google.js'
+import { setCookie } from '../../server/session.js'
+import { STATE_COOKIE, requireEnv } from '../../server/config.js'
+import { getBaseUrl, safeNextPath } from '../../server/http.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

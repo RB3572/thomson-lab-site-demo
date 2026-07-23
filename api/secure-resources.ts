@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { requireAllowlisted } from '../server/auth'
-import { SECURE_DRIVE_URL } from '../server/config'
-import { sendJson } from '../server/http'
+import { requireAllowlisted } from '../server/auth.js'
+import { SECURE_DRIVE_URL } from '../server/config.js'
+import { sendJson } from '../server/http.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Gate BEFORE returning any protected content: the Drive link never reaches

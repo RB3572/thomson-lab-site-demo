@@ -1,11 +1,11 @@
 import { neon, type NeonQueryFunction } from '@neondatabase/serverless'
-import { team } from '../src/lib/team'
-import { publications as staticPublications } from '../src/lib/publications'
-import { events as staticEvents } from '../src/lib/events'
-import { SECTIONS, titleToSection } from '../src/lib/member-meta'
-import type { TeamSection, Member } from '../src/lib/team'
-import type { PubYear } from '../src/lib/publications'
-import type { LabEvent } from '../src/lib/events'
+import { team } from '../src/lib/team.js'
+import { publications as staticPublications } from '../src/lib/publications.js'
+import { events as staticEvents } from '../src/lib/events.js'
+import { SECTIONS, titleToSection } from '../src/lib/member-meta.js'
+import type { TeamSection, Member } from '../src/lib/team.js'
+import type { PubYear } from '../src/lib/publications.js'
+import type { LabEvent } from '../src/lib/events.js'
 
 const connectionString =
   process.env.DATABASE_URL ||

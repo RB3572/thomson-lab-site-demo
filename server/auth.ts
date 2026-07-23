@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { getSession } from './session'
-import { isAdminEmail } from './config'
-import { getMemberEmails } from './db'
-import { sendJson } from './http'
+import { getSession } from './session.js'
+import { isAdminEmail } from './config.js'
+import { getMemberEmails } from './db.js'
+import { sendJson } from './http.js'
 
 export async function getAuthedEmail(req: VercelRequest): Promise<string | null> {
   const s = await getSession(req)

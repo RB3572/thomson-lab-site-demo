@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { listEvents } from '../server/db'
-import { toICS, events as staticEvents } from '../src/lib/events'
+import { listEvents } from '../server/db.js'
+import { toICS, events as staticEvents } from '../src/lib/events.js'
 
 /** Live iCal feed built from the database (falls back to bundled events). */
 export default async function handler(_req: VercelRequest, res: VercelResponse) {

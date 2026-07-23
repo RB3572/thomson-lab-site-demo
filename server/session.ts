@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { SESSION_COOKIE, SESSION_TTL_SECONDS, requireEnv } from './config'
+import { SESSION_COOKIE, SESSION_TTL_SECONDS, requireEnv } from './config.js'
 
 export interface Session {
   email: string

@@ -5,9 +5,9 @@ import {
   getTeamPublic,
   listMembers,
   updateMember,
-} from '../server/db'
-import { requireAdmin } from '../server/auth'
-import { readJsonBody, sendJson } from '../server/http'
+} from '../server/db.js'
+import { requireAdmin } from '../server/auth.js'
+import { readJsonBody, sendJson } from '../server/http.js'
 
 function coerceMember(b: Record<string, unknown>) {
   const tags = Array.isArray(b.tags)

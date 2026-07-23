@@ -35,7 +35,7 @@ export default async function handler(_req: any, res: any) {
   }
 
   const checks: [string, () => Promise<unknown>][] = [
-    ['extensionless ../server/config', () => import('../server/config')],
+    ['extensionless ../server/config', () => import('../server/config.js')],
     ['with .js ../server/config.js', () => import('../server/config.js')],
   ]
 

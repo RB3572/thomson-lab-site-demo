@@ -14,15 +14,29 @@ export default async function handler(_req: any, res: any) {
     },
   }
 
+  // What actually shipped in the function bundle?
+  try {
+    const fs = await import('node:fs')
+    const ls = (p: string) => {
+      try {
+        return fs.readdirSync(p).slice(0, 40)
+      } catch (e: any) {
+        return `ERR ${e?.code}`
+      }
+    }
+    out.fs = {
+      '/var/task': ls('/var/task'),
+      '/var/task/api': ls('/var/task/api'),
+      '/var/task/server': ls('/var/task/server'),
+      '/var/task/src': ls('/var/task/src'),
+    }
+  } catch (e: any) {
+    out.fs = String(e?.message)
+  }
+
   const checks: [string, () => Promise<unknown>][] = [
-    ['jose', () => import('jose')],
-    ['@neondatabase/serverless', () => import('@neondatabase/serverless')],
-    ['../server/config', () => import('../server/config')],
-    ['../server/http', () => import('../server/http')],
-    ['../server/session', () => import('../server/session')],
-    ['../server/google', () => import('../server/google')],
-    ['../server/db', () => import('../server/db')],
-    ['../src/lib/events', () => import('../src/lib/events')],
+    ['extensionless ../server/config', () => import('../server/config')],
+    ['with .js ../server/config.js', () => import('../server/config.js')],
   ]
 
   for (const [name, load] of checks) {
